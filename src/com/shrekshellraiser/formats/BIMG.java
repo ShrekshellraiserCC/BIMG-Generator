@@ -38,22 +38,28 @@ public class BIMG implements IFormat {
         }
     }
 
-    public void save(String filename) throws IOException {
+    private void tryFinalize() {
         writeMetadata();
         if (!finalized) {
             file.append("}"); // Close root com.shrekshellraiser.formats.BIMG table
             finalized = true;
         }
+    }
+
+    public void save(String filename) throws IOException {
+        tryFinalize();
         Utils.writeToFile(filename, Utils.stringToInt(file.toString()));
     }
 
     public void save(File file) throws IOException {
-        writeMetadata();
-        if (!finalized) {
-            this.file.append("}"); // Close root com.shrekshellraiser.formats.BIMG table
-            finalized = true;
-        }
+        tryFinalize();
         Utils.writeToFile(file, Utils.stringToInt(this.file.toString()));
+    }
+
+    @Override
+    public String get() {
+        tryFinalize();
+        return this.file.toString();
     }
 
     private void appendString(String str) {

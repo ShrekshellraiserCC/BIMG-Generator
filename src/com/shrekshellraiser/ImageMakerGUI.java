@@ -53,23 +53,13 @@ public class ImageMakerGUI implements ActionListener, ItemListener {
     }
 
     public static void main(String[] args) {
-        System.out.println("BIMG Image Generator version " + ImageMakerGUI.VERSION);
-        System.out.println("Pass any arguments in to trigger the CLI version");
-        System.out.println("Run without any arguments to run the GUI");
         if (args.length > 0) {
             ImageMaker.main(args);
             return;
         }
-//        try {
-//            // Set System L&F
-//            String LAF = UIManager.getSystemLookAndFeelClassName();
-//            System.out.println("Attempting to set L&F " + LAF);
-//            UIManager.setLookAndFeel(LAF);
-//        } catch (UnsupportedLookAndFeelException | ClassNotFoundException | InstantiationException |
-//                 IllegalAccessException e) {
-//            // handle exception
-//            System.out.println("Error setting L&F " + e);
-//        }
+        System.out.println("BIMG Image Generator version " + ImageMakerGUI.VERSION);
+        System.out.println("Pass any arguments in to trigger the CLI version");
+        System.out.println("Run without any arguments to run the GUI");
         ImageMakerGUI main = new ImageMakerGUI();
         main.startGUI();
     }
@@ -317,7 +307,7 @@ public class ImageMakerGUI implements ActionListener, ItemListener {
             default -> throw new IllegalStateException("Unexpected value: " + ditherMode.getSelectedItem());
         };
         return image1.convert(mode, defaultPalette, dither,
-                Objects.equals(paletteMode.getSelectedItem(), "AutoSingle"), (Integer) blitChar.getValue());
+                Objects.equals(paletteMode.getSelectedItem(), "AutoSingle"), (Integer) blitChar.getValue(), false);
     }
 
     @Override

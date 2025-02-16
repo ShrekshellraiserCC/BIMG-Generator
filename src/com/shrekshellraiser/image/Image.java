@@ -60,7 +60,7 @@ public class Image {
         return outputImages;
     }
 
-    public IMode[] convert(Mode.IM_MODE mode, Palette palette, IDither dither, boolean autoSingle, int blitChar) {
+    public IMode[] convert(Mode.IM_MODE mode, Palette palette, IDither dither, boolean autoSingle, int blitChar, boolean lowResKMeans) {
         Palette singlePalette = null;
         IMode[] im = new IMode[imageArr.length];
         for (int i = 0; i < imageArr.length; i++) {
@@ -70,8 +70,8 @@ public class Image {
                 im[i] = switch (mode) {
                     case HD -> new ModeHighDensity(inputImage, palette, dither);
                     case LD -> new ModeLowDensity(inputImage, palette, dither, blitChar);
-                    case HD_AUTO -> new ModeHighDensity(inputImage, dither);
-                    case LD_AUTO -> new ModeLowDensity(inputImage, dither, blitChar);
+                    case HD_AUTO -> new ModeHighDensity(inputImage, dither, lowResKMeans);
+                    case LD_AUTO -> new ModeLowDensity(inputImage, dither, blitChar, lowResKMeans);
                 };
             } else {
                 im[i] = switch (mode) {

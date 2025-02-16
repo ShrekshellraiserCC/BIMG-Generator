@@ -1,5 +1,6 @@
 package com.shrekshellraiser.modes;
 
+import com.shrekshellraiser.ImageMaker;
 import com.shrekshellraiser.dithers.IDither;
 import com.shrekshellraiser.palettes.Palette;
 import com.shrekshellraiser.palettes.PaletteImage;
@@ -25,12 +26,13 @@ public class ModeLowDensity implements IMode {
         this(image, palette, dither, 159);
     }
 
-    public ModeLowDensity(BufferedImage image, IDither dither, int charCode) {
-        this(image, new Palette(KMeans.applyKMeans(image, 16)), dither, charCode);
+    public ModeLowDensity(BufferedImage image, IDither dither, int charCode, boolean lowResKMeans) {
+        this(image, new Palette(KMeans.applyKMeans(lowResKMeans ?
+                ImageMaker.resize(image, ImageMaker.kMeansWidth, ImageMaker.kMeansHeight) : image, 16)), dither, charCode);
     }
 
-    public ModeLowDensity(BufferedImage image, IDither dither) {
-        this(image, dither, 159);
+    public ModeLowDensity(BufferedImage image, IDither dither, boolean lowResKMeans) {
+        this(image, dither, 159, lowResKMeans);
     }
 
     private char[] getChar(int x, int y) {

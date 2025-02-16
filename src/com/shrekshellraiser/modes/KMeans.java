@@ -63,7 +63,6 @@ public class KMeans {
         for (int i = 0; i < K; i++) {
             returnValue[i] = new Color(centroidPoints[i].location);
         }
-        System.out.println("Found optimal colors in " + iterations + " iterations.");
         return returnValue;
     }
 }
