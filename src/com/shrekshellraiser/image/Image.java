@@ -1,5 +1,6 @@
 package com.shrekshellraiser.image;
 
+import com.shrekshellraiser.ImageMaker;
 import com.shrekshellraiser.dithers.IDither;
 import com.shrekshellraiser.formats.BBF;
 import com.shrekshellraiser.formats.BIMG;
@@ -70,8 +71,8 @@ public class Image {
                 im[i] = switch (mode) {
                     case HD -> new ModeHighDensity(inputImage, palette, dither);
                     case LD -> new ModeLowDensity(inputImage, palette, dither, blitChar);
-                    case HD_AUTO -> new ModeHighDensity(inputImage, dither, lowResKMeans);
-                    case LD_AUTO -> new ModeLowDensity(inputImage, dither, blitChar, lowResKMeans);
+                    case HD_AUTO -> new ModeHighDensity(inputImage, dither, lowResKMeans, ImageMaker.defaultPalette.getColors());
+                    case LD_AUTO -> new ModeLowDensity(inputImage, dither, blitChar, lowResKMeans, ImageMaker.defaultPalette.getColors());
                 };
             } else {
                 im[i] = switch (mode) {

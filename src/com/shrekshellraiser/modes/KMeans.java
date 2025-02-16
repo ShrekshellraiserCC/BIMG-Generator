@@ -5,7 +5,25 @@ import com.shrekshellraiser.palettes.Color;
 import java.awt.image.BufferedImage;
 
 public class KMeans {
-    public static Color[] applyKMeans(BufferedImage image, int K) {
+    static private int rgb2hsv(int rgb) {
+        int r = (rgb & 0xFF0000) >> 16;
+        int g = (rgb & 0x00FF00) >> 8;
+        int b = (rgb & 0xFF);
+        float [] hsv = new float[3];
+        java.awt.Color.RGBtoHSB(r,g,b,hsv);
+        return ((int)(hsv[0] * 255) << 16) | ((int)(hsv[1] * 255) << 8) | (int)(hsv[2] * 255);
+    }
+    static private int hsv2rgb(int hsv) {
+        int h = (hsv & 0xFF0000) >> 16;
+        int s = (hsv & 0x00FF00) >> 8;
+        int v = (hsv & 0xFF);
+        float H = (float) h / 255;
+        float S = (float) s / 255;
+        float V = (float) v / 255;
+        java.awt.Color color = java.awt.Color.getHSBColor(H,S,V);
+        return color.getRGB();
+    }
+    public static Color[] applyKMeans(BufferedImage image, int K, Color[] start) {
         int width = image.getWidth();
         int height = image.getHeight();
         int[] pixelArray = new int[width * height];
@@ -13,10 +31,11 @@ public class KMeans {
         Centroid[] centroidPoints = new Centroid[K];
         image.getRGB(0, 0, width, height, pixelArray, 0, width);
         for (int i = 0; i < width * height; i++) {
-            recordPoints[i] = new Record(new Color(pixelArray[i]), centroidPoints);
+            recordPoints[i] = new Record(new Color(rgb2hsv(pixelArray[i])), centroidPoints);
         }
-        // Here we have to choose our centroids
-        centroidPoints[0] = new Centroid(recordPoints[(int) (Math.random() * centroidPoints.length)].location);
+        for (int i = 0; i < K; i++) {
+            centroidPoints[i] = new Centroid(start[i]);
+        }
         // First point is one of the data points chosen at random
         for (int i = 1; i < K; i++) {
             // Compute the total weight of all items together.
@@ -61,7 +80,7 @@ public class KMeans {
         }
         Color[] returnValue = new Color[K];
         for (int i = 0; i < K; i++) {
-            returnValue[i] = new Color(centroidPoints[i].location);
+            returnValue[i] = new Color(hsv2rgb(centroidPoints[i].location.getColor()));
         }
         return returnValue;
     }

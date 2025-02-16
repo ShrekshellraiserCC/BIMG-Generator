@@ -385,8 +385,10 @@ public class ImageMaker {
                 im[i] = switch (mode) {
                     case HD -> new ModeHighDensity(inputImage, palette, dither);
                     case LD -> new ModeLowDensity(inputImage, palette, dither);
-                    case HD_AUTO -> new ModeHighDensity(inputImage, dither, lowResKMeans);
-                    case LD_AUTO -> new ModeLowDensity(inputImage, dither, lowResKMeans);
+                    case HD_AUTO -> new ModeHighDensity(inputImage, dither, lowResKMeans, singlePalette == null ?
+                            defaultPalette.getColors() : singlePalette.getColors());
+                    case LD_AUTO -> new ModeLowDensity(inputImage, dither, lowResKMeans, singlePalette == null ?
+                            defaultPalette.getColors() : singlePalette.getColors());
                 };
             } else {
                 im[i] = switch (mode) {

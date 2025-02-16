@@ -7,6 +7,9 @@ public class Palette {
         this.colors = colors;
     }
 
+    public Color[] getColors() {
+        return colors;
+    }
     public Color getColor(int index) {
         return colors[index];
     }

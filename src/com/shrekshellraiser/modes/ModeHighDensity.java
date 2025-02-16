@@ -22,9 +22,9 @@ public class ModeHighDensity implements IMode {
         this.height = 3 * (this.image.getHeight() / 3);
     }
 
-    public ModeHighDensity(BufferedImage image, IDither dither, boolean lowResKMeans) {
+    public ModeHighDensity(BufferedImage image, IDither dither, boolean lowResKMeans, Color[] start) {
         this(image, new Palette(KMeans.applyKMeans(lowResKMeans ?
-                ImageMaker.resize(image, ImageMaker.kMeansWidth, ImageMaker.kMeansHeight) : image, 16)), dither);
+                ImageMaker.resize(image, ImageMaker.kMeansWidth, ImageMaker.kMeansHeight) : image, 16, start)), dither);
     }
 
     private char[] getChar(int x, int y) {
